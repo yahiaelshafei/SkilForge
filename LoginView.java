@@ -63,5 +63,13 @@ public class LoginView extends JPanel{
     {
         return signUpButton;
     }
+    public String getUsername()
+    {
+        return usernameField.getText();
+    }
+    public String getPassword()
+    {
+        return new String(passwordField.getPassword());
+    }
 
 }

@@ -21,9 +21,6 @@ public class AppController {
         signUpView.getBackButton().addActionListener(e -> showLogin());
 
         showLogin();
-
-
-
     }
 
     private void showLogin() {

@@ -15,7 +15,7 @@ public class SignUpView extends JPanel{
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JPasswordField repeatPasswordField;
-    private JComboBox roleComboBox;
+    private JComboBox<String> roleComboBox;
 
     public SignUpView()
     {
@@ -53,7 +53,7 @@ public class SignUpView extends JPanel{
         String[] roles = {"Student","Instructor"};
         JLabel roleLabel = new JLabel("Role ");
         roleLabel.setFont(new Font("Arial",Font.PLAIN,20));
-        roleComboBox = new JComboBox(roles);
+        roleComboBox = new JComboBox<String>(roles);
         roleComboBox.setFont(new Font("Arial",Font.PLAIN,18));
         roleLabel.setBounds(150,300,100,30);
         roleComboBox.setBounds(320,300,100,30);
@@ -87,6 +87,21 @@ public class SignUpView extends JPanel{
     {
         return signUpButton;
     }
-
+    public String getUsername()
+    {
+        return usernameField.getText();
+    }
+    public String getPassowrd()
+    {
+        return new String(passwordField.getPassword());
+    }
+    public String getRepeatedPassword()
+    {
+        return new String(repeatPasswordField.getPassword());
+    }
+    public String getRole()
+    {
+        return (String) roleComboBox.getSelectedItem();
+    }
 
 }
