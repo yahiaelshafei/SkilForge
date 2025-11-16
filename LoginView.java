@@ -54,4 +54,14 @@ public class LoginView extends JPanel{
         add(signUpButton);
     }
 
+
+    public JButton getLoginButton()
+    {
+        return loginButton;
+    }
+    public JButton getSignupButton()
+    {
+        return signUpButton;
+    }
+
 }
