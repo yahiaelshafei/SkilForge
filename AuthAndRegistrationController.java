@@ -1,95 +1,37 @@
-import java.util.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.regex.Pattern;
+
 public class AuthAndRegistrationController {
-    private Map<String, User> users;
-     public AuthAndRegistrationController() {
-        users = new HashMap<>();
-        
-}
+    private final JsonDatabaseManager db;
+    private final Pattern emailPattern = Pattern.compile("^[\\w-.]+@[\\w-]+\\.[A-Za-z]{2,}$");
 
-     
-     public boolean signup(String userId, String role, String username, String email, String password) {
-    
-    if (users.containsKey(userId)) {
-        System.out.println("Error: User ID already exists.");
-        return false;
+    public AuthAndRegistrationController(JsonDatabaseManager db) {
+        this.db = db;
     }
 
-    
-    if (!validateEmail(email)) {
-        System.out.println("Error: Invalid email.");
-        return false;
-    }
+    public boolean signup(String userId, String role, String username, String email, String password) {
+        if (db.findUserById(userId) != null) return false;
+        if (db.emailExists(email)) return false;
+        if (!emailPattern.matcher(email).matches()) return false;
 
-    
-    String passwordHash = hashPassword(password);
+        String hash = HashUtil.sha256(password);
 
-   
-    User user;
-    if (role.equalsIgnoreCase("student")) {
-        user = new Student(userId, username, email, passwordHash, new ArrayList<>(), new HashMap<>());
-    } else if (role.equalsIgnoreCase("instructor")) {
-        user = new Instructor(userId, username, email, passwordHash, new ArrayList<>());
-    } else {
-        System.out.println("Error: Invalid role.");
-        return false;
-    }
-
-    
-    users.put(userId, user);
-    System.out.println(role + " registered successfully!");
-    return true;
-}
-     
-     
-     private boolean validateEmail(String email) {
-    return email.contains("@") && email.contains(".");
-}
-     
-    private String hashPassword(String password) {
-    try {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] hashBytes = md.digest(password.getBytes());
-        StringBuilder sb = new StringBuilder();
-        for (byte b : hashBytes) {
-            sb.append(String.format("%02x", b));
+        User u;
+        if (role.equalsIgnoreCase("student")) {
+            u = new Student(userId, username, email, hash, new java.util.ArrayList<>(), new java.util.HashMap<>());
+        } else {
+            u = new Instructor(userId, username, email, hash, new java.util.ArrayList<>());
         }
-        return sb.toString();
-    } catch (NoSuchAlgorithmException e) {
-        throw new RuntimeException("SHA-256 algorithm not found.");
-    }
-} 
-    
-    
-    public User login(String userId, String password) {
-    
-    User user = users.get(userId);
-    if (user == null) {
-        System.out.println("Error: User not found.");
-        return null;
+
+        db.addUser(u);
+        return true;
     }
 
-    
-    String passwordHash = hashPassword(password);
+    public User login(String emailOrId, String password) {
+        User u = db.findUserByEmail(emailOrId);
+        if (u == null) u = db.findUserById(emailOrId);
+        if (u == null) return null;
 
-    
-    if (!user.getPasswordHash().equals(passwordHash)) {
-        System.out.println("Error: Incorrect password.");
-        return null;
+        if (!u.getPasswordHash().equals(HashUtil.sha256(password))) return null;
+        return u;
     }
-
-   
-    System.out.println("Login successful! Welcome " + user.getUsername());
-    return user;
-}
-  public void logout(User user) {
-    System.out.println(user.getUsername() + " logged out successfully.");
-}  
-  public Collection<User> getAllUsers() {
-    return users.values();
-}
-     
-}
-
 }
