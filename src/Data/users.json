@@ -1,10 +1,36 @@
 {
-  "user-1763348009673": {
+  "user-1763348836573": {
     "createdCourses": [],
-    "userId": "user-1763348009673",
+    "userId": "user-1763348836573",
+    "role": "instructor",
+    "username": "mamdouh",
+    "email": "mamdouh@mamdouh.com",
+    "passwordHash": "3a2aaa30aa4c31083a8fb66218ce2adadfacf21eeedc43b40c89ec9b7a0337b0"
+  },
+  "user-1763348613629": {
+    "createdCourses": [],
+    "userId": "user-1763348613629",
     "role": "instructor",
     "username": "yahia",
     "email": "yahia@yahia.com",
     "passwordHash": "4902374bf1171d2077d041c29051328d78dd700b0369f1c31176324490637fa1"
+  },
+  "user-1763348848733": {
+    "enrolledCourses": [],
+    "progress": {},
+    "userId": "user-1763348848733",
+    "role": "student",
+    "username": "salma",
+    "email": "salma@salma.com",
+    "passwordHash": "25d4824df60545545311648b993309da936607a8fe537f5dc10b3fb38da31aab"
+  },
+  "user-1763348624341": {
+    "enrolledCourses": [],
+    "progress": {},
+    "userId": "user-1763348624341",
+    "role": "student",
+    "username": "hanya",
+    "email": "hanya@hanya.com",
+    "passwordHash": "302b5e151603c925987c38b683a98507e285606f6921beb3d75ea4af1e7e7dde"
   }
 }
