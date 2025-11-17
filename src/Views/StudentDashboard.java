@@ -8,8 +8,9 @@ import Models.*;
 import Controllers.*;
 
 public class StudentDashboard extends JFrame {
-    private final Student student;
+    private Student student;
     private final CourseController courseController;
+    private final String studentId;
 
     private JTabbedPane tabbedPane;
     
@@ -34,6 +35,7 @@ public class StudentDashboard extends JFrame {
 
     public StudentDashboard(Student student, CourseController courseController) {
         this.student = student;
+        this.studentId = student.getUserId();
         this.courseController = courseController;
 
         setTitle("Student Dashboard - " + student.getUsername());
@@ -175,6 +177,9 @@ public class StudentDashboard extends JFrame {
     }
 
     private void loadAvailableCourses() {
+        // Refresh student data from database
+        refreshStudentData();
+        
         availableCoursesModel.setRowCount(0);
         java.util.List<Course> allCourses = courseController.getAllCourses();
         
@@ -196,6 +201,9 @@ public class StudentDashboard extends JFrame {
     }
 
     private void loadMyCourses() {
+        // Refresh student data from database
+        refreshStudentData();
+        
         myCoursesModel.setRowCount(0);
         
         for (String courseId : student.getEnrolledCourses()) {
@@ -287,6 +295,9 @@ public class StudentDashboard extends JFrame {
     }
 
     private void loadLessonsForCourse() {
+        // Refresh student data from database
+        refreshStudentData();
+        
         lessonsModel.setRowCount(0);
         
         String selected = (String) courseSelector.getSelectedItem();
@@ -424,6 +435,14 @@ public class StudentDashboard extends JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             dispose();
             new LoginScreen(new UserDatabase("src/Data/users.json"), courseController).setVisible(true);
+        }
+    }
+
+    // Helper method to refresh student data from database
+    private void refreshStudentData() {
+        User u = courseController.getUserById(studentId);
+        if (u instanceof Student) {
+            this.student = (Student) u;
         }
     }
 }

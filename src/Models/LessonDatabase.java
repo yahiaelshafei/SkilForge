@@ -27,17 +27,48 @@ public class LessonDatabase {
             }
 
             Reader r = new FileReader(f);
-            Map<String, Lesson> loaded = gson.fromJson(r,
-                    new TypeToken<Map<String, Lesson>>() {
-                    }.getType());
-
-            if (loaded != null)
-                lessons.putAll(loaded);
-
+            
+            // Read as JsonObject first
+            JsonElement element = JsonParser.parseReader(r);
             r.close();
+            
+            // Check if it's an object or array
+            if (element.isJsonObject()) {
+                JsonObject jsonObject = element.getAsJsonObject();
+                
+                // Parse each lesson manually
+                for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+                    String lessonId = entry.getKey();
+                    JsonObject lessonJson = entry.getValue().getAsJsonObject();
+                    
+                    String title = lessonJson.get("title").getAsString();
+                    String content = lessonJson.get("content").getAsString();
+                    
+                    // Parse resources array
+                    List<String> resources = new ArrayList<>();
+                    if (lessonJson.has("resources") && !lessonJson.get("resources").isJsonNull()) {
+                        JsonArray resourcesArray = lessonJson.getAsJsonArray("resources");
+                        for (JsonElement resourceElement : resourcesArray) {
+                            resources.add(resourceElement.getAsString());
+                        }
+                    }
+                    
+                    Lesson lesson = new Lesson(lessonId, title, content, resources);
+                    lessons.put(lessonId, lesson);
+                }
+            } else if (element.isJsonArray()) {
+                // Handle empty array case []
+                JsonArray jsonArray = element.getAsJsonArray();
+                if (jsonArray.size() == 0) {
+                    System.out.println("Lesson database is empty.");
+                }
+            }
+
+            System.out.println("Loaded " + lessons.size() + " lessons from database.");
 
         } catch (Exception e) {
             System.err.println("Failed to load LessonDatabase: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

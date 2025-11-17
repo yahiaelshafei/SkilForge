@@ -17,9 +17,26 @@ public class CourseController {
     // Course Management
     public boolean addCourse(Course c) {
         try {
-            courseDb.addCourse(c);
+            // Check if course already exists
+            if (courseDb.courseExists(c.getCourseId())) {
+                courseDb.updateCourse(c);
+            } else {
+                courseDb.addCourse(c);
+            }
+            
+            // Update instructor's createdCourses list (avoid duplicates)
+            User instructor = userDb.findUserById(c.getInstructorId());
+            if (instructor instanceof Instructor) {
+                Instructor inst = (Instructor) instructor;
+                if (!inst.getCreatedCourses().contains(c.getCourseId())) {
+                    inst.getCreatedCourses().add(c.getCourseId());
+                    userDb.updateUser(inst);
+                }
+            }
+            
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -44,8 +61,7 @@ public class CourseController {
     public boolean deleteCourse(String courseId) {
         try {
             Course c = courseDb.getCourseById(courseId);
-            if (c == null)
-                return false;
+            if (c == null) return false;
 
             // Delete all lessons in this course
             for (String lessonId : c.getLessons()) {
@@ -87,24 +103,30 @@ public class CourseController {
             return false;
         Student s = (Student) u;
 
+        boolean updated = false;
+
+        // Add student to course
         if (!c.getStudents().contains(studentId)) {
             c.getStudents().add(studentId);
             courseDb.updateCourse(c);
+            updated = true;
         }
 
+        // Add course to student's enrolled courses
         if (!s.getEnrolledCourses().contains(courseId)) {
             s.getEnrolledCourses().add(courseId);
             s.getProgress().put(courseId, new ArrayList<>());
             userDb.updateUser(s);
+            updated = true;
+            System.out.println("Student " + studentId + " enrolled in course " + courseId);
         }
 
-        return true;
+        return updated;
     }
 
     public List<Student> getEnrolledStudents(String courseId) {
         Course c = courseDb.getCourseById(courseId);
-        if (c == null)
-            return new ArrayList<>();
+        if (c == null) return new ArrayList<>();
 
         List<Student> students = new ArrayList<>();
         for (String studentId : c.getStudents()) {
@@ -119,8 +141,7 @@ public class CourseController {
     // Lesson Management
     public boolean addLesson(String courseId, Lesson lesson) {
         Course c = courseDb.getCourseById(courseId);
-        if (c == null)
-            return false;
+        if (c == null) return false;
 
         lessonDb.addLesson(lesson);
         c.getLessons().add(lesson.getLessonId());
@@ -139,8 +160,7 @@ public class CourseController {
 
     public boolean deleteLesson(String courseId, String lessonId) {
         Course c = courseDb.getCourseById(courseId);
-        if (c == null)
-            return false;
+        if (c == null) return false;
 
         c.getLessons().remove(lessonId);
         courseDb.updateCourse(c);
@@ -154,20 +174,18 @@ public class CourseController {
 
     public List<Lesson> getCourseLessons(String courseId) {
         Course c = courseDb.getCourseById(courseId);
-        if (c == null)
-            return new ArrayList<>();
+        if (c == null) return new ArrayList<>();
         return lessonDb.getLessonsByCourse(courseId, c.getLessons());
     }
 
     // Progress Tracking
     public boolean markLessonComplete(String studentId, String courseId, String lessonId) {
         User u = userDb.findUserById(studentId);
-        if (!(u instanceof Student))
-            return false;
+        if (!(u instanceof Student)) return false;
 
         Student s = (Student) u;
         List<String> progress = s.getProgress().getOrDefault(courseId, new ArrayList<>());
-
+        
         if (!progress.contains(lessonId)) {
             progress.add(lessonId);
             s.getProgress().put(courseId, progress);
@@ -179,8 +197,7 @@ public class CourseController {
 
     public boolean isLessonCompleted(String studentId, String courseId, String lessonId) {
         User u = userDb.findUserById(studentId);
-        if (!(u instanceof Student))
-            return false;
+        if (!(u instanceof Student)) return false;
 
         Student s = (Student) u;
         List<String> progress = s.getProgress().getOrDefault(courseId, new ArrayList<>());
@@ -189,11 +206,15 @@ public class CourseController {
 
     public int getCompletedLessonsCount(String studentId, String courseId) {
         User u = userDb.findUserById(studentId);
-        if (!(u instanceof Student))
-            return 0;
+        if (!(u instanceof Student)) return 0;
 
         Student s = (Student) u;
         List<String> progress = s.getProgress().getOrDefault(courseId, new ArrayList<>());
         return progress.size();
+    }
+
+    // Helper method to get user by ID
+    public User getUserById(String userId) {
+        return userDb.findUserById(userId);
     }
 }

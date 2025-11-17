@@ -1,62 +1,14 @@
 {
-  "lesson-1763348797980": {
-    "lessonId": "lesson-1763348797980",
-    "title": "lesson 2",
-    "content": "conditions",
+  "lesson-1763350146400": {
+    "lessonId": "lesson-1763350146400",
+    "title": "2",
+    "content": "l",
     "resources": []
   },
-  "lesson-1763348748385": {
-    "lessonId": "lesson-1763348748385",
-    "title": "lesson 3",
-    "content": "association",
-    "resources": []
-  },
-  "lesson-1763348809563": {
-    "lessonId": "lesson-1763348809563",
-    "title": "lesson 3",
-    "content": "loops",
-    "resources": []
-  },
-  "lesson-1763349007647": {
-    "lessonId": "lesson-1763349007647",
-    "title": "lesson 1",
-    "content": "frontend",
-    "resources": []
-  },
-  "lesson-1763348707570": {
-    "lessonId": "lesson-1763348707570",
-    "title": "lesson 1",
-    "content": "encapsulation",
-    "resources": []
-  },
-  "lesson-1763348733811": {
-    "lessonId": "lesson-1763348733811",
-    "title": "lesson 2",
-    "content": "abstraction",
-    "resources": []
-  },
-  "lesson-1763348780381": {
-    "lessonId": "lesson-1763348780381",
-    "title": "lesson 1",
-    "content": "variables",
-    "resources": []
-  },
-  "lesson-1763349016482": {
-    "lessonId": "lesson-1763349016482",
-    "title": "lesson 2",
-    "content": "backend",
-    "resources": []
-  },
-  "lesson-1763348906816": {
-    "lessonId": "lesson-1763348906816",
-    "title": "lesson 2",
-    "content": "deep learning",
-    "resources": []
-  },
-  "lesson-1763348897322": {
-    "lessonId": "lesson-1763348897322",
-    "title": "lesson 1",
-    "content": "machine learning",
+  "lesson-1763350138319": {
+    "lessonId": "lesson-1763350138319",
+    "title": "1",
+    "content": "l",
     "resources": []
   }
 }

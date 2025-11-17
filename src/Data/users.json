@@ -1,6 +1,9 @@
 {
   "user-1763348836573": {
-    "createdCourses": [],
+    "createdCourses": [
+      "course-1763349646532",
+      "course-1763349661367"
+    ],
     "userId": "user-1763348836573",
     "role": "instructor",
     "username": "mamdouh",
@@ -8,7 +11,10 @@
     "passwordHash": "3a2aaa30aa4c31083a8fb66218ce2adadfacf21eeedc43b40c89ec9b7a0337b0"
   },
   "user-1763348613629": {
-    "createdCourses": [],
+    "createdCourses": [
+      "course-1763350116767",
+      "course-1763350042757"
+    ],
     "userId": "user-1763348613629",
     "role": "instructor",
     "username": "yahia",
@@ -16,8 +22,20 @@
     "passwordHash": "4902374bf1171d2077d041c29051328d78dd700b0369f1c31176324490637fa1"
   },
   "user-1763348848733": {
-    "enrolledCourses": [],
-    "progress": {},
+    "enrolledCourses": [
+      "course-1763348885077",
+      "course-1763349646532",
+      "course-1763349584765",
+      "course-1763350042757"
+    ],
+    "progress": {
+      "course-1763349584765": [],
+      "course-1763350042757": [
+        "lesson-1763350138319"
+      ],
+      "course-1763349646532": [],
+      "course-1763348885077": []
+    },
     "userId": "user-1763348848733",
     "role": "student",
     "username": "salma",
@@ -25,8 +43,19 @@
     "passwordHash": "25d4824df60545545311648b993309da936607a8fe537f5dc10b3fb38da31aab"
   },
   "user-1763348624341": {
-    "enrolledCourses": [],
-    "progress": {},
+    "enrolledCourses": [
+      "course-1763348681398",
+      "course-1763348885077",
+      "course-1763349646532"
+    ],
+    "progress": {
+      "course-1763348681398": [],
+      "course-1763349646532": [],
+      "course-1763348885077": [
+        "lesson-1763348906816",
+        "lesson-1763348897322"
+      ]
+    },
     "userId": "user-1763348624341",
     "role": "student",
     "username": "hanya",

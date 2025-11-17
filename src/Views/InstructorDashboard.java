@@ -8,7 +8,8 @@ import Controllers.*;
 import Models.*;
 
 public class InstructorDashboard extends JFrame {
-    private final Instructor instructor;
+    private Instructor instructor;
+    private final String instructorId;
     private final CourseController courseController;
 
     private JTable lessonTable;
@@ -19,6 +20,7 @@ public class InstructorDashboard extends JFrame {
 
     public InstructorDashboard(Instructor instructor, CourseController courseController) {
         this.instructor = instructor;
+        this.instructorId = instructor.getUserId();
         this.courseController = courseController;
 
         setTitle("Instructor Dashboard - " + instructor.getUsername());
@@ -73,6 +75,7 @@ public class InstructorDashboard extends JFrame {
         // Event Listeners
         courseBox.addActionListener(e -> loadLessons());
         refreshButton.addActionListener(e -> {
+            refreshInstructorData();
             loadCourses();
             loadLessons();
         });
@@ -90,12 +93,35 @@ public class InstructorDashboard extends JFrame {
 
     private void loadCourses() {
         courseBox.removeAllItems();
-        for (String courseId : instructor.getCreatedCourses()) {
+        
+        // Use a Set to track course IDs we've already added (prevent duplicates)
+        java.util.Set<String> addedCourses = new java.util.HashSet<>();
+        
+        // Create a copy of the list to safely remove duplicates
+        java.util.List<String> createdCourses = new java.util.ArrayList<>(instructor.getCreatedCourses());
+        boolean foundDuplicates = false;
+        
+        for (String courseId : createdCourses) {
+            // Skip if we've already added this course
+            if (addedCourses.contains(courseId)) {
+                foundDuplicates = true;
+                continue;
+            }
+            
             Course c = courseController.getCourseById(courseId);
             if (c != null) {
                 courseBox.addItem(c.getTitle() + " | " + c.getCourseId());
+                addedCourses.add(courseId);
             }
         }
+        
+        // If we found duplicates, clean up the instructor's list
+        if (foundDuplicates) {
+            instructor.setCreatedCourses(new java.util.ArrayList<>(addedCourses));
+            // Note: We'll save this when the user adds/edits a course next time
+            System.out.println("Removed duplicate courses from instructor's list");
+        }
+        
         if (courseBox.getItemCount() > 0) {
             loadLessons();
         }
@@ -147,8 +173,12 @@ public class InstructorDashboard extends JFrame {
                     new ArrayList<>(), new ArrayList<>());
 
             if (courseController.addCourse(course)) {
-                instructor.getCreatedCourses().add(courseId);
+                // Don't manually add to createdCourses - the controller does this now
+                // Just refresh the UI
                 JOptionPane.showMessageDialog(this, "Course added successfully!");
+                
+                // Reload instructor from database to get updated createdCourses
+                refreshInstructorData();
                 loadCourses();
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to add course.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -397,6 +427,14 @@ public class InstructorDashboard extends JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             dispose();
             new LoginScreen(new UserDatabase("src/Data/users.json"), courseController).setVisible(true);
+        }
+    }
+
+    // Helper method to refresh instructor data from database
+    private void refreshInstructorData() {
+        User u = courseController.getUserById(instructorId);
+        if (u instanceof Instructor) {
+            this.instructor = (Instructor) u;
         }
     }
 }

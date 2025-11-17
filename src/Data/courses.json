@@ -1,48 +1,23 @@
 {
-  "course-1763348980146": {
-    "courseId": "course-1763348980146",
-    "title": "web dev",
-    "description": "..",
-    "instructorId": "user-1763348836573",
-    "lessons": [
-      "lesson-1763349007647",
-      "lesson-1763349016482"
-    ],
-    "students": []
-  },
-  "course-1763348681398": {
-    "courseId": "course-1763348681398",
-    "title": "c++",
-    "description": "programming basics",
-    "instructorId": "user-1763348613629",
-    "lessons": [
-      "lesson-1763348780381",
-      "lesson-1763348797980",
-      "lesson-1763348809563"
-    ],
-    "students": []
-  },
-  "course-1763348656494": {
-    "courseId": "course-1763348656494",
+  "course-1763350116767": {
+    "courseId": "course-1763350116767",
     "title": "java",
-    "description": "oop princibles",
+    "description": "j",
     "instructorId": "user-1763348613629",
-    "lessons": [
-      "lesson-1763348707570",
-      "lesson-1763348733811",
-      "lesson-1763348748385"
-    ],
+    "lessons": [],
     "students": []
   },
-  "course-1763348885077": {
-    "courseId": "course-1763348885077",
-    "title": "python",
-    "description": "ai fundementals",
-    "instructorId": "user-1763348836573",
+  "course-1763350042757": {
+    "courseId": "course-1763350042757",
+    "title": "c++",
+    "description": "c",
+    "instructorId": "user-1763348613629",
     "lessons": [
-      "lesson-1763348897322",
-      "lesson-1763348906816"
+      "lesson-1763350138319",
+      "lesson-1763350146400"
     ],
-    "students": []
+    "students": [
+      "user-1763348848733"
+    ]
   }
 }
