@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\yahia\\Downloads\\org.json-1.6-20240205.jar",
+        "c:\\Users\\yahia\\Downloads\\gson-2.11.0.jar"
+    ]
+}
