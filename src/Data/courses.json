@@ -1,1 +1,24 @@
-[]
+{
+  "course-1763347815754": {
+    "courseId": "course-1763347815754",
+    "title": "c++",
+    "description": "embedded",
+    "instructorId": "user-1763347773684",
+    "lessons": [],
+    "students": [
+      "user-1763347932756"
+    ]
+  },
+  "course-1763347796134": {
+    "courseId": "course-1763347796134",
+    "title": "java",
+    "description": "oop",
+    "instructorId": "user-1763347773684",
+    "lessons": [
+      "lesson-1763347841850"
+    ],
+    "students": [
+      "user-1763347932756"
+    ]
+  }
+}
